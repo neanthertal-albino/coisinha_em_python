@@ -17,7 +17,11 @@ class ContaBanco:
     def sacar(self, valor):
         if valor > self.saldo:
             print(f"Saque NEGADO de R${valor:,.2f} na conta {self.id}: SALDO INSUFICIENTE.")
+        else:
+            self.saldo -= valor
+            print(f"O saque de R${valor:,.2F} feito pela conta {self.id} efetuado com sucesso")
 
 c1 = ContaBanco(id= 142, nome = "Cleiton", saldo = 5500)
-c1 = depositar(500)
+c1.depositar(500)
+c1.sacar(2_000)
 print(c1)
