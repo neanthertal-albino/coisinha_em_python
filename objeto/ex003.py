@@ -1,3 +1,5 @@
+from rich import inspect
+
 class ContaBanco:
     """
     O ContaBanco cria uma conta bancária com id, nome e saldo.
@@ -25,3 +27,4 @@ c1 = ContaBanco(id= 142, nome = "Cleiton", saldo = 5500)
 c1.depositar(500)
 c1.sacar(2_000)
 print(c1)
+inspect(ContaBanco)
