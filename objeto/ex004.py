@@ -47,7 +47,7 @@ print(etiqueta(p2))
 consumo por pessoa = 400g
 preço: 82,40/kg
 '''
-
+'''
 from rich.console import Console
 from rich.panel import Panel
 
@@ -71,3 +71,35 @@ class Analisar:
 
 c1 = Analisar(100)
 c1.exibir()
+'''
+
+
+
+class livro:
+    '''
+    Uma classe que simula a passagem de páginas;
+        pga = página atual
+        pgl = páginas lidas
+        pt = páginas totais do livro
+    '''
+    def __init__(self, pga=1, pgl=0, pt=0):
+        self.pga = pga
+        self.pgl = pga + pgl
+        self.pt = pt
+    
+    def contar(self):
+        while self.pga < self.pt:
+            print(f"Página atual {self.pga}\nPáginas lidas {self.pgl}\nTotal de páginas {self.pt}")
+            print('--'*10)
+            self.pgl = int(input("[green]Meu mano[/], leu quantas [yellow]paginas[/] ae: "))
+            
+            if self.pgl < self.pt:
+                for p in range(self.pgl):
+                    self.pga += p
+                    print('--'*10)
+                    print(f'Leu Página {self.pga}...')
+                    print('--'*10)
+            
+            
+l1 = livro(pga=1, pgl=0, pt=10)
+l1.contar()
