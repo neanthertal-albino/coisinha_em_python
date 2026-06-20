@@ -80,7 +80,7 @@ class livro:
     '''
     Uma classe que simula a passagem de páginas;
         pga = página atual
-        pgl = páginas lidas
+        pgl = páginas lidas em uma sessão
         pt = páginas totais do livro
     '''
     def __init__(self, pga=1, pgl=0, pt=0):
@@ -90,6 +90,7 @@ class livro:
     
     def contar(self):
         while self.pga < self.pt:
+            print('--'*10)
             print(f"Página atual {self.pga}\nPáginas lidas {self.pgl}\nTotal de páginas {self.pt}")
             print('--'*10)
             self.pgl = int(input("Meu mano, leu quantas paginas ae: "))
@@ -99,12 +100,13 @@ class livro:
                 self.pga += 1
                 print('--'*10)
                 time.sleep(1)
-                print(f'Leu Página {self.pga}...')
+                print(f'[blue]Leu[/] Página {self.pga}...')
                 time.sleep(1)
                 print('--'*10)
+                
 
                 if self.pga >= self.pt:
-                    print('\n:book: Opa, você terminou o livro.')
+                    print('\n:book: Opa, você [yellow]terminou[/] o livro.\n')
                     break
             
             
