@@ -17,7 +17,7 @@ class Jogador:
 
         tg = ""
 
-        self.jogo.sort()
+        self.jogo.sort(key=str.lower)
 
         for jogo in self.jogo:
             tg += f'- {jogo}\n'
