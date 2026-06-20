@@ -3,8 +3,9 @@ import rich.emoji
 from rich.table import Table
 from rich import box
 import time
+from rich.panel import Panel
 
-
+'''
 # Classe de funcionario
 
 class funcionario:
@@ -22,29 +23,24 @@ class funcionario:
 h1 = funcionario(n="Jailson", c="Guarda", s="Segurança")
 print(h1.apresentar())
 '''
-def etiqueta(produto):
-    tab = Table(
-        title="Produto",
-        show_lines=True,
-        box=box.ROUNDED
-        )
-
-    tab.add_column(produto.nome, justify="center", style="green")
-    tab.add_row(f"R$ {produto.preco:,.2f}")
-
-    return tab
-
 class produto:
     def __init__(self, n="<NoNamed>", p=0):
         self.nome = n
         self.preco = p
+    
+    def etiqueta(self):
+        conteudo = f"{self.nome.center(30, ' ')}"
+        conteudo += '-' * 30
+        precof = f'{self.preco:,.2f}'
+        conteudo += f"{precof.center(30, '.')}"
+        etiqueta = Panel(conteudo, title='produto', width=34)
+        print(etiqueta)
 
 p1 = produto(n="Petróleo", p=1_000_000.76)
 p2 = produto(n="Cavalo", p=1_599.99)
 
-print(etiqueta(p1))
-print(etiqueta(p2))
-'''
+p1.etiqueta()
+p2.etiqueta()
 '''
 consumo por pessoa = 400g
 preço: 82,40/kg
