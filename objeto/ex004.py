@@ -1,9 +1,8 @@
 from rich import print
 import rich.emoji
 from rich.table import Table
-from rich import box
 import time
-from rich.panel import Panel
+
 
 '''
 # Classe de funcionario
@@ -22,7 +21,8 @@ class funcionario:
     
 h1 = funcionario(n="Jailson", c="Guarda", s="Segurança")
 print(h1.apresentar())
-'''
+
+
 class produto:
     def __init__(self, n="<NoNamed>", p=0):
         self.nome = n
@@ -42,36 +42,39 @@ p2 = produto(n="Cavalo", p=1_599.99)
 p1.etiqueta()
 p2.etiqueta()
 '''
+'''
 consumo por pessoa = 400g
 preço: 82,40/kg
 '''
 '''
-from rich.console import Console
 from rich.panel import Panel
 
-console = Console()
-
 class Analisar:
-    def __init__(self, pessoas=0):
+    def __init__(self, titulo, pessoas=0):
+        self.titulo = titulo
         self.pessoas = pessoas
+
         self.kg = pessoas * 0.4
         self.preco = self.kg * 82.40
 
-    def exibir(self):
-        texto = (
-            f"Para cada pessoa são necessários 0,4 kg de carne.\n\n"
-            f"Quantidade de pessoas: {self.pessoas}\n"
-            f"Total de carne necessária: {self.kg:.1f} kg\n"
-            f"Preço total: R$ {self.preco:.2f}"
+        self.preco_individual = (
+            self.preco / pessoas if pessoas > 0 else 0
         )
 
-        console.print(Panel(texto, title="Relatório do Churrasco"))
+    def anali(self):
+        conteudo = (
+            f"{self.titulo} terá {self.pessoas} participantes.\n"
+            f"Cada pessoa comerá 0.4Kg e cada Kg custa 82.40\n"
+            f"Recomendo comprar {self.kg:.2f}Kg de carne.\n"
+            f"Cada pessoa pagará R$ {self.preco_individual:.2f}"
+        )
 
-c1 = Analisar(100)
-c1.exibir()
+        painel = Panel(conteudo, title=self.titulo)
+        return painel
+
+c1 = Analisar("Churras", 15)
+print(c1.anali())
 '''
-
-
 
 class livro:
     '''
@@ -81,7 +84,7 @@ class livro:
         pt = páginas totais do livro
     '''
     def __init__(self, pga=1, pgl=0, pt=0):
-        self.pga = pga
+        self.pga = 1
         self.pgl = pgl
         self.pt = pt
     
