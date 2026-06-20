@@ -85,16 +85,19 @@ class livro:
     '''
     def __init__(self, pga=1, pgl=0, pt=0):
         self.pga = pga
-        self.pgl = pga + pgl
+        self.pgl = pgl
         self.pt = pt
     
     def contar(self):
         while self.pga < self.pt:
             print('--'*10)
-            print(f"Página atual {self.pga}\nPáginas lidas {self.pgl}\nTotal de páginas {self.pt}")
+            print(f"Página atual {self.pga}\nPáginas lidas {self.pgl}\nTotal de páginas {self.pt}\nFaltam {self.pt - self.pga} páginas.")
             print('--'*10)
             self.pgl = int(input("Meu mano, leu quantas paginas ae: "))
             
+            if self.pgl < 0:
+                print(f':fire: [red]CARA[/], COMO QUE VOCÊ [yellow]LEU[/] PÁGINAS [red]NEGATIVAS[/] AKAKAKAKAK')
+                continue
 
             for p in range(self.pgl):
                 self.pga += 1
@@ -110,5 +113,5 @@ class livro:
                     break
             
             
-l1 = livro(pga=1, pgl=0, pt=10)
+l1 = livro(pga=1, pgl=0, pt=20)
 l1.contar()
