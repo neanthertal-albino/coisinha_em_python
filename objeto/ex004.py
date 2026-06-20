@@ -4,22 +4,23 @@ from rich.table import Table
 from rich import box
 import time
 
-'''
+
 # Classe de funcionario
 
 class funcionario:
-    def __init__(self, n="[ ]", c="[ ]", s="[]", e="[]"):
+    empresa = "Curso em Vídeo"
+    def __init__(self, n="[ ]", c="[ ]", s="[]"):
         self.nome = n
         self.cargo = c
         self.setor = s
-        self.empresa = e
 
+    def apresentar(self):
         print("  ")
-        print(f":handshake: Olá, Meu nome é [blue]{self.nome}[/] e sou {self.cargo} do setor de {self.setor} da empresa {self.empresa}.")
+        return f":handshake: Olá, Meu nome é [blue]{self.nome}[/] e sou {self.cargo} do setor de {self.setor} da {funcionario.empresa}."
         print("  ")
     
-h1 = funcionario(n="Jailson", c="Guarda", s="Segurança", e="CursoemVideo")
-'''
+h1 = funcionario(n="Jailson", c="Guarda", s="Segurança")
+print(h1.apresentar())
 '''
 def etiqueta(produto):
     tab = Table(
@@ -102,9 +103,9 @@ class livro:
             for p in range(self.pgl):
                 self.pga += 1
                 print('--'*10)
-                time.sleep(1)
+                time.sleep(0.4)
                 print(f'[blue]Leu[/] Página {self.pga}...')
-                time.sleep(1)
+                time.sleep(0.4)
                 print('--'*10)
                 
 
@@ -113,5 +114,5 @@ class livro:
                     break
             
             
-l1 = livro(pga=1, pgl=0, pt=20)
+l1 = livro(pga=1, pgl=0, pt=15)
 l1.contar()
