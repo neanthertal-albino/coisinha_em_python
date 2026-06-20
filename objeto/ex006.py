@@ -5,14 +5,19 @@ from rich.console import Console
 import time
 
 class Caneta:
-    contador = 0
-    cores = ['red', 'green', 'blue']
-
-    def __init__(self):
+    def __init__(self, cor):
         self.tampada = False
-        self.cor = Caneta.cores[
-                Caneta.contador % len(Caneta.cores)
-        ]
+        match cor.lower().strip():
+            case 'azul':
+                escolha = 'blue'
+            case 'verde':
+                escolha = 'green'
+            case 'vermelho':
+                escolha = 'red'
+            case _:
+                escolha = 'white'
+            
+        self.cor = escolha
 
     def destampar(self):
         self.tampada = True
@@ -24,7 +29,7 @@ class Caneta:
             print(f'[{self.cor}]{self.mensagem}')
 
         else:
-            print(":sweat_smile: [blue]ops...[/] a [yellow]caneta[/] está [blue]tampada[/]")
+            print(f":sweat_smile: [{self.cor}]ops... a caneta está tampada")
 
     def quebra_linha(self, l=0):
         self.linha = l
@@ -32,21 +37,8 @@ class Caneta:
         for i in range(self.linha):
             print()
 
-c1 = Caneta()
+c1 = Caneta(cor="verde")
 c1.destampar()
 c1.escrever("qualquer coisa")
 c1.quebra_linha(2)
 
-c2 = Caneta()
-c2.destampar()
-c2.escrever("Olá, mundo")
-c2.quebra_linha(1)
-
-c3 = Caneta()
-c3.destampar()
-c3.escrever("Hello, world")
-c3.quebra_linha(3)
-
-c4 = Caneta()
-c4.destampar()
-c4.escrever("Hello, world")
