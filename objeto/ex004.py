@@ -2,6 +2,7 @@ from rich import print
 import rich.emoji
 from rich.table import Table
 from rich import box
+import time
 
 '''
 # Classe de funcionario
@@ -91,14 +92,20 @@ class livro:
         while self.pga < self.pt:
             print(f"Página atual {self.pga}\nPáginas lidas {self.pgl}\nTotal de páginas {self.pt}")
             print('--'*10)
-            self.pgl = int(input("[green]Meu mano[/], leu quantas [yellow]paginas[/] ae: "))
+            self.pgl = int(input("Meu mano, leu quantas paginas ae: "))
             
-            if self.pgl < self.pt:
-                for p in range(self.pgl):
-                    self.pga += p
-                    print('--'*10)
-                    print(f'Leu Página {self.pga}...')
-                    print('--'*10)
+
+            for p in range(self.pgl):
+                self.pga += 1
+                print('--'*10)
+                time.sleep(1)
+                print(f'Leu Página {self.pga}...')
+                time.sleep(1)
+                print('--'*10)
+
+                if self.pga >= self.pt:
+                    print('\n:book: Opa, você terminou o livro.')
+                    break
             
             
 l1 = livro(pga=1, pgl=0, pt=10)
