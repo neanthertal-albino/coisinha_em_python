@@ -56,7 +56,7 @@ class Controle:
                         self.canal -= 1
 
 
-            self.barra = "█" * self.volume + "░" * (self.max_vol - self.volume)
+            self.barra = "[cyan on cyan] [/]" * self.volume + "[black on black] [/]" * (self.max_vol - self.volume)
 
             self.texto_canais = ""
 
