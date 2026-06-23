@@ -16,7 +16,7 @@ class Aluno(Pessoa):
         self.curso = curso
         self.turma = turma
 
-    def matricula():
+    def matricula(self):
         print(f'O aluno {self.nome} se matriculou')
 
 
@@ -47,7 +47,8 @@ a1.matricula()
 
 p1 = Professor(nome = "carlota", idade = 32,especialidade="matematioca", nivel="MESTRADO" )
 p1.fazer_aniversário()
-
+p1.dar_aula()
 
 f1 = Funcionario(nome = "Diogo", idade = 22,cargo="diretor",setor="administração" )
 f1.fazer_aniversário()
+f1.bater_ponto()
