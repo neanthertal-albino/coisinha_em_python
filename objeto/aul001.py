@@ -43,12 +43,11 @@ class Funcionario(Pessoa):
 a1 = Aluno(nome = "Roberto", idade = 18, curso = "seila", turma = 'todas!')
 a1.fazer_aniversário()
 a1.matricula()
-inspect(a1, methods=True)
+
 
 p1 = Professor(nome = "carlota", idade = 32,especialidade="matematioca", nivel="MESTRADO" )
 p1.fazer_aniversário()
-inspect(p1, methods=True)
+
 
 f1 = Funcionario(nome = "Diogo", idade = 22,cargo="diretor",setor="administração" )
 f1.fazer_aniversário()
-inspect(f1, methods=True)
