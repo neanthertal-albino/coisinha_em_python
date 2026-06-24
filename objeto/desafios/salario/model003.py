@@ -18,7 +18,7 @@ class Funcionario(ABC):
     def analisar_salario(self):
         base = self.salario / Funcionario.salario_minimo
 
-        mensagem = f'O salário de {self.nome} é de R${self.salario:,.2f} e corresponde a {base:.1f} salários mínimos.'
+        mensagem = f'O salário de {self.nome} ({self.__class__.__name__}) é de R${self.salario:,.2f} e corresponde a {base:.1f} salários mínimos.'
         print(Panel(mensagem, width=50, title="ANÁLISE DE SALÁRIO"))
 
 
@@ -35,5 +35,9 @@ class Funcionario_horista(Funcionario):
     
 class Funcionario_mensalista(Funcionario):
     
+    def __init__(self, nome, salario_bruto = Funcionario.salario_minimo):
+        super().__init__(nome)
+        self.salario_bruto = salario_bruto
+
     def calcular_salario(self):
-        pass
+        self.salario = self.salario_bruto - (self.salario_bruto * self.desconto_inss / 100)
