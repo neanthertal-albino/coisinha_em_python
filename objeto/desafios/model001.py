@@ -1,13 +1,45 @@
-class Cafeteria():
-    def cafe():
-        print('1. Fervendo a água a 100 graus Ceulsius.\n2. Passando água pressurizada pelo pó de café moído.\n3. Servindo em uma xícara pequena.')
+from abc import ABC, abstractmethod
 
-    def cha():
-        print('1. Fervendo a água a 100 graus Ceulsius.\n2. Mergulhando o sachê de ervas na água.\n3. Servindo na canela de porcelana com limão.')
+class Bebida_quent(ABC):
+    def preparar(self):
+        print('--INICIANDO O PREPARO--')
+        self.ferveragua()
+        self.misturar()
+        self.servir()
+        print('--BEBIDA PRONTA--\n')
 
-    def leite():
-        print('1. Fervendo a água a 100 graus Ceulsius.\n2. seila vapor no leite.\n3. servir em uma caneca grande com café.')
-        
+    def ferveragua(self):
+        print('1. Fervendo água a 100 graus celcius')
 
-a1 = Cafeteria
-a1.leite()
+    @abstractmethod
+    def misturar(self):
+        pass
+    
+    @abstractmethod
+    def servir(self):
+        pass
+
+class Cafe(Bebida_quent):
+    def misturar(self):
+        print('2. Passando água pressurizada pelo pó de café moído.')
+
+    def servir(self):
+        print('3. Servir o café em xícara pequena.')
+
+
+class Cha(Bebida_quent):
+    def misturar(self):
+        print('2. mergulhar o sachê de ervas na água.')
+
+    def servir(self):
+        print('3. servir na caneca de porcelana')
+
+class Leite(Bebida_quent):
+    def misturar(self):
+        print('2. coisar o leite seila')
+
+    def servir(self):
+        print('3. servindo na caneca com café')
+
+
+    
