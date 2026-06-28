@@ -1,13 +1,13 @@
 from rich import print
-from storage import *
+from abc import ABC, abstractmethod
 
 '''
-===================================================================
+==========================
 Classe Base de Personagem
-===================================================================
+==========================
 '''
 
-class Personagem():
+class Personagem(ABC):
     '''
     Classe Personagem base, define:
     Nome;
@@ -29,9 +29,9 @@ class Personagem():
 
 
     '''
-    ----------------------------------------------------------------------------
+    ----------
     ATRIBUTOS
-    ----------------------------------------------------------------------------
+    ----------
     '''
     def calc_atr(self):
         while True:
@@ -78,9 +78,9 @@ class Personagem():
 
 
     '''
-    ----------------------------------------------------------------------------
+    ---------
     DISPLAY
-    ----------------------------------------------------------------------------
+    ---------
     '''
     def mostrar(self):
         print(f"[yellow on black]{self.nome}:[/]")
@@ -93,14 +93,13 @@ class Personagem():
 
 
     '''
-    ----------------------------------------------------------------------------
+    -------
     STATUS
-    ----------------------------------------------------------------------------
+    -------
     '''
     def calc_hp_ps(self):
         self.__hp = 25 + (5 * self._dict_atributo["Força"])
         self.__ps = 25 + (5 * self._dict_atributo["Intelecto"])
-
 
     
     def total(self):
@@ -108,12 +107,13 @@ class Personagem():
 
 
     '''
-    ----------------------------------------------------------------------------
+    ---------
     ABSTRATO
-    ----------------------------------------------------------------------------
+    ---------
     '''
+    @abstractmethod
     def habilidade(self):
-        raise NotImplementedError('Essa classe precissa implementar habilidade()')
+        pass
 
     
     def to_dict(self):
@@ -125,18 +125,30 @@ class Personagem():
             'ps': self._Personagem__ps
         }
 
+    
+    @property
+    def hp(self):
+        return self.__hp
+
+    
+    @property
+    def ps(self):
+        return self.__ps
+
+
+    @abstractmethod
+    def aplicar_bonus(self):
+        pass
+
 
 '''
-============================================================================
+============
 CLASSE MAGO
-============================================================================
+============
 '''
 class Mago(Personagem):
-    def __init__(self, personagem):
-        super().__init__(personagem.nome)
-        self._dict_atributo = personagem._dict_atributo.copy()
-        self._dict_atributo["Intelecto"] += 3
-        self.calc_hp_ps()
+    def __init__(self, nome):
+        super().__init__(nome)
         self.classe = '<Mago>'
 
         self._hability = {
@@ -148,17 +160,19 @@ class Mago(Personagem):
         return self._hability['Rajada de mana']
 
 
+    def aplicar_bonus(self):
+        self._dict_atributo["Intelecto"] += 3
+
+
 '''
-============================================================================
+===============
 CLASSE PALADINO
-============================================================================
+===============
 '''
 class Paladino(Personagem):
-    def __init__(self, personagem):
-        super().__init__(personagem.nome)
-        self._dict_atributo = personagem._dict_atributo.copy()
+    def __init__(self, nome):
+        super().__init__(nome)
         self._dict_atributo['Força'] += 2
-        self.calc_hp_ps()
         self.classe = '<Paladino>'
 
         self._hability = {
@@ -170,18 +184,18 @@ class Paladino(Personagem):
         return self._hability["Porretada"]
 
 
+    def aplicar_bonus(self):
+        self._dict_atributo["Força"] += 2
+
+
 '''
-============================================================================
+============
 CLASSE LADINO
-============================================================================
+============
 '''
 class Ladino(Personagem):
-    def __init__(self, personagem):
-        super().__init__(personagem.nome)
-        self._dict_atributo = personagem._dict_atributo.copy()
-        self._dict_atributo['Agilidade'] += 4
-        self._dict_atributo['Força'] -= 1
-        self.calc_hp_ps()
+    def __init__(self, nome):
+        super().__init__(nome)
         self.classe = '<Ladino>'
 
         self._hability = {
@@ -193,23 +207,25 @@ class Ladino(Personagem):
         return self._hability['Esfaquear']
 
 
+    def aplicar_bonus(self):
+        self._dict_atributo['Agilidade'] += 4
+        self._dict_atributo['Força'] -= 1
+
+
 '''
-============================================================================
+=================
 REGISTRO CLASSES
-============================================================================
+=================
 '''
 Personagem.CLASSES = {
-        0: Mago,
-        1: Paladino,
-        2: Ladino
+        'Mago': Mago,
+        'Paladino': Paladino,
+        'Ladino': Ladino
     }
-
-
-
 '''
-============================================================================
+=============
 SET JOGADORES
-============================================================================
+=============
 '''
 def set_jogadores():
     jogadores = []
@@ -239,21 +255,23 @@ def set_jogadores():
                 print('[white on red]ATENÇÃO![/] APÓS ISSO O [yellow on black]NOME[/] JAMAIS, NUNCA E EM NENHUMA HIPÓTESE [red]PODERÁ SER MUDADO[/]')
                 confirm = input("VOCÊ TEM CERTEZA? [S/N] ").strip().lower()
                 if confirm == "s":
-                    base = Personagem(nome)
-                    base.calc_atr()
+                    while True:
+                        print(f"\nEscolha a sua classe:")
+                        print("Mago")
+                        print("Paladino")
+                        print("Ladino")
 
-                    print("\nEscolha sua classe:")
-                    print("0 = Mago")
-                    print("1 = Paladino")
-                    print("2 = Ladino")
 
-                    escolha = int(input("> "))
-
-                    jogador = Personagem.CLASSES[escolha](base)
-
-                    jogadores.append(jogador)
-
-                    break
+                        escolha = input("> ").capitalize()
+                        if escolha in Personagem.CLASSES:
+                            jogador = Personagem.CLASSES[escolha](nome)
+                            jogador.calc_atr()
+                            jogador.aplicar_bonus()
+                            jogador.calc_hp_ps()
+                            jogadores.append(jogador)
+                            break
+                        
+                        
                 elif confirm == "n":
                     continue
                 else:
@@ -268,3 +286,4 @@ def set_jogadores():
     
 
 set_jogadores()
+
