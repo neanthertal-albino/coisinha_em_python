@@ -7,6 +7,17 @@ Classe Base de Personagem
 ==========================
 '''
 
+class Inimigo():
+    def __init__(self):
+        self.nome = 'inimigo_de_bosta'
+        self.hp = 10
+
+
+    def receber_dano(self, dano):
+        self.hp -= dano
+        print(f'{self.nome} recebeu {dano} de dano. HP atual: {self.hp}')
+
+
 class Personagem(ABC):
     '''
     Classe Personagem base, define:
@@ -105,16 +116,6 @@ class Personagem(ABC):
     def total(self):
         return sum(self._dict_atributo.values())
 
-
-    '''
-    ---------
-    ABSTRATO
-    ---------
-    '''
-    @abstractmethod
-    def habilidade(self):
-        pass
-
     
     def to_dict(self):
         return {
@@ -135,10 +136,25 @@ class Personagem(ABC):
     def ps(self):
         return self.__ps
 
+    '''
+    ---------
+    ABSTRATO
+    ---------
+    '''
+    @abstractmethod
+    def habilidade(self):
+        pass
+
 
     @abstractmethod
     def aplicar_bonus(self):
         pass
+
+
+    @abstractmethod
+    def atacar(self, alvo):
+        pass
+
 
 
 '''
@@ -151,17 +167,25 @@ class Mago(Personagem):
         super().__init__(nome)
         self.classe = '<Mago>'
 
-        self._hability = {
-            'Rajada de mana': 5
-        }
-
-    
-    def habilidade(self):
-        return self._hability['Rajada de mana']
-
 
     def aplicar_bonus(self):
-        self._dict_atributo["Intelecto"] += 3
+        self._dict_atributo["Intelecto"] += 4
+        self._dict_atributo['Força'] -= 3
+
+
+    def atacar(self, alvo):
+        dano = 10
+        alvo.receber_dano(dano)
+        print(f"{self.nome}({self.hp}) Atacou {alvo.nome}")
+
+
+    def receber_dano(self):
+        pass
+
+
+    def habilidade(self):
+        pass
+        
 
 
 '''
@@ -175,17 +199,17 @@ class Paladino(Personagem):
         self._dict_atributo['Força'] += 2
         self.classe = '<Paladino>'
 
-        self._hability = {
-            'Porretada': 4
-        }
-
-
-    def habilidade(self):
-        return self._hability["Porretada"]
-
 
     def aplicar_bonus(self):
         self._dict_atributo["Força"] += 2
+
+
+    def atacar(self):
+        pass
+
+    
+    def habilidade(self):
+        pass
 
 
 '''
@@ -198,19 +222,22 @@ class Ladino(Personagem):
         super().__init__(nome)
         self.classe = '<Ladino>'
 
-        self._hability = {
-            'Esfaquear': 2
-        }
+
+    def aplicar_bonus(self):
+        self._dict_atributo['Agilidade'] += 3
+        self._dict_atributo['Força'] -= 1
+
+
+    def atacar(self):
+        pass
+
+
+    def receber_dano(self):
+        pass
 
 
     def habilidade(self):
-        return self._hability['Esfaquear']
-
-
-    def aplicar_bonus(self):
-        self._dict_atributo['Agilidade'] += 4
-        self._dict_atributo['Força'] -= 1
-
+        pass
 
 '''
 =================
@@ -271,11 +298,12 @@ def set_jogadores():
                             jogadores.append(jogador)
                             break
                         
-                        
+                
                 elif confirm == "n":
                     continue
                 else:
                     print("Digite apenas S ou N.")
+            break
 
             
     for j, jogador in enumerate(jogadores, start=1):
@@ -285,5 +313,7 @@ def set_jogadores():
     return jogadores    
     
 
-set_jogadores()
-
+#set_jogadores()
+essecara = Inimigo()
+matador = Mago("sika")
+matador.atacar(essecara)
