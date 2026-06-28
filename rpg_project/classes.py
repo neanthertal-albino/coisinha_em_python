@@ -66,20 +66,46 @@ class Personagem():
         return sum(self.__dict_atributo.values())
 
 
-a = False
-while True:
-    nome = input('Insira o nome do seu personagem:  ').strip()
-    if not nome:
-        print('[red]ERRO![/] VOCÊ NÃO DIGITOU [yellow]NADA![/]')
-    else:
-        print('[white on red]ATENÇÃO![/] APÓS ISSO O [yellow on black]NOME[/] JAMAIS, NUNCA E EM NENHUMA HIPÓTESE [red]PODERÁ SER MUDADO[/]')
-        a = input("VOCÊ TEM CERTEZA? [S/N] ").strip().lower()
-        if a == "s":
-            break
-        elif a == "n":
-            break
-        else:
-            print("Digite apenas S ou N.")
+def set_jogadores():
+    jogadores = []
+    while True:
+        try:
+            num_player = int(input('Quantos jogadores [min: 1/max: 5]: '))
 
-j1 = Personagem(nome)
-j1.mostrar()
+            if 1 <= num_player <= 5:
+                break
+            else:
+                print('DIGITE [yellow]APENAS[/] VALORES ENTRE 1 E 5')
+
+        except ValueError:
+            print('[red on black]ERRO![/] APENAS VALORES [yellow]NÚMERICOS INTEIROS".[/]')
+    
+
+    confirm = ""
+    for v in range(num_player):
+        while True:
+            nome = input(f'Insira o nome do jogador {v + 1}:  ').strip()
+            
+            if not nome:
+                print('[red]ERRO![/] VOCÊ NÃO DIGITOU [yellow]NADA![/]')
+
+            else:
+                print('[white on red]ATENÇÃO![/] APÓS ISSO O [yellow on black]NOME[/] JAMAIS, NUNCA E EM NENHUMA HIPÓTESE [red]PODERÁ SER MUDADO[/]')
+                confirm = input("VOCÊ TEM CERTEZA? [S/N] ").strip().lower()
+                if confirm == "s":
+                    jogador = Personagem(nome)
+                    jogadores.append(jogador)
+                    break
+                elif confirm == "n":
+                    continue
+                else:
+                    print("Digite apenas S ou N.")
+
+            
+    for j, jogador in enumerate(jogadores, start=1):
+            print(f'\nJogador {j} = {jogador.nome}')
+            jogador.mostrar()
+
+    return jogadores
+
+set_jogadores()
