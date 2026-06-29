@@ -31,3 +31,5 @@ class Esqueleto(Inimigo):
 
     def receber_dano(self, dano):
         pass
+
+    
