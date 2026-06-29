@@ -7,17 +7,6 @@ Classe Base de Personagem
 ==========================
 '''
 
-class Inimigo():
-    def __init__(self):
-        self.nome = 'inimigo_de_bosta'
-        self.hp = 10
-
-
-    def receber_dano(self, dano):
-        self.hp -= dano
-        print(f'{self.nome} recebeu {dano} de dano. HP atual: {self.hp}')
-
-
 class Personagem(ABC):
     '''
     Classe Personagem base, define:
@@ -131,10 +120,20 @@ class Personagem(ABC):
     def hp(self):
         return self.__hp
 
+    @hp.setter
+    def hp(self, valor):
+        self.__hp = max(0, valor)
+
     
     @property
     def ps(self):
         return self.__ps
+
+    
+    @ps.setter
+    def ps(self, valor):
+        self.__ps = max(0, valor)
+
 
     '''
     ---------
@@ -175,12 +174,14 @@ class Mago(Personagem):
 
     def atacar(self, alvo):
         dano = 10
+        print(f"{self.nome}({self.hp}) Atacou {alvo.nome}({alvo.hp})")
         alvo.receber_dano(dano)
-        print(f"{self.nome}({self.hp}) Atacou {alvo.nome}")
+        
 
 
-    def receber_dano(self):
-        pass
+    def receber_dano(self, dano):
+        self.hp -= dano
+        print(f'[blue]{self.nome}[/] recebeu {dano} de [red]dano[/]. [green]HP atual:[/] {self.hp}\n')
 
 
     def habilidade(self):
@@ -313,7 +314,4 @@ def set_jogadores():
     return jogadores    
     
 
-#set_jogadores()
-essecara = Inimigo()
-matador = Mago("sika")
-matador.atacar(essecara)
+
