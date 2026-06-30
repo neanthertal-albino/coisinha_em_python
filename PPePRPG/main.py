@@ -1,8 +1,14 @@
+<<<<<<< Updated upstream
+=======
 from classes.classes import *
-from classes.inimigo import Inimigo
+from classes.combate import *
+from classes.inimigo import *
+from rich import print
 
-essecara = Inimigo()
-matador = Mago("meu amigo")
+ini = Esqueleto()
+party = set_jogadores()
+'''
+inimigos = [ini]
 
-party_jogadores = []
-inimigos = []
+combate(party, inimigos)'''
+>>>>>>> Stashed changes

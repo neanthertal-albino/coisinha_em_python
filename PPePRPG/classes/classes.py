@@ -7,6 +7,17 @@ Classe Base de Personagem
 ==========================
 '''
 
+class Inimigo():
+    def __init__(self):
+        self.nome = 'inimigo_de_bosta'
+        self.hp = 10
+
+
+    def receber_dano(self, dano):
+        self.hp -= dano
+        print(f'{self.nome} recebeu {dano} de dano. HP atual: {self.hp}')
+
+
 class Personagem(ABC):
     '''
     Classe Personagem base, define:
@@ -35,6 +46,7 @@ class Personagem(ABC):
     '''
     def calc_atr(self):
         while True:
+            self.rezet()
             error = False
             for atributo in self._dict_atributo:
                 try:
@@ -42,10 +54,12 @@ class Personagem(ABC):
 
                     if 0 <= valor <= 8:
                         self._dict_atributo[atributo] = valor
+                        print(f"Faltam {15 - self.total()} pontos.")
 
                         if self.total() > 15:
                             error = True
                             break
+
                     else:
                         error = True
                         break
@@ -55,26 +69,47 @@ class Personagem(ABC):
                     error = True
                     break
                 
-            if not error:
+            if error:
+                print('\n[red]ERRO![/] [yellow]VALORES INVÁLIDOS INSERIDOS[/], POR FAVOR [green]INSIRA[/] NOVAMENTE. \n')
+                continue
+        
+            else:
+                
                 for nome, valor in self._dict_atributo.items():
                     print(f'    [cyan on black]{nome}:[/] {valor} [cyan]?[/]')
 
                 are_you_sure = input('\nContinuar (isso não poderá ser mudado após a criação do personagem): [SIM/NAO] \n').upper().strip()
-
+                
                 while True:
                     if are_you_sure == 'SIM':
-                        break
+                        if self.total() != 15:
+                            print('Mano, Organiza sapoha direito.')
+                            error = True
+                            break
+                        else:                                
+                            return
+
                     elif are_you_sure == 'NAO':
-                        print('Tá bom.')
+                        print('Recomeçando...')
                         break
+
                     else:
                         are_you_sure = input('\nAcho que houve um ERRO de digitação (continuar): [SIM/NAO] ').upper().strip()
+
                 
-                if are_you_sure == 'SIM':
-                    self.calc_hp_ps()
-                    break
-            else:
-                print('\n[red]ERRO![/] [yellow]VALORES INVÁLIDOS INSERIDOS[/], POR FAVOR [green]INSIRA[/] NOVAMENTE. \n')
+
+
+    def rezet(self):
+        self._dict_atributo = {
+                            'Força': 0,
+                            'Agilidade': 0,
+                            'Intelecto': 0
+                        }
+
+
+    def receber_dano(self, dano):
+        self.hp -= dano
+        print(f'[blue]{self.nome}[/] recebeu {dano} de [red]dano[/]. [green]HP atual:[/] {self.hp}\n')
 
 
     '''
@@ -117,23 +152,18 @@ class Personagem(ABC):
 
     
     @property
+    def vivo(self):
+        return self.__hp > 0
+
+
+    @property
     def hp(self):
         return self.__hp
-
-    @hp.setter
-    def hp(self, valor):
-        self.__hp = max(0, valor)
 
     
     @property
     def ps(self):
         return self.__ps
-
-    
-    @ps.setter
-    def ps(self, valor):
-        self.__ps = max(0, valor)
-
 
     '''
     ---------
@@ -150,9 +180,10 @@ class Personagem(ABC):
         pass
 
 
-    @abstractmethod
     def atacar(self, alvo):
-        pass
+        dano = self._dict_atributo["Força"]
+        print(f"{self.nome}({self.hp}) Atacou {alvo.nome}({alvo.hp})")
+        alvo.receber_dano(dano)
 
 
 
@@ -173,17 +204,22 @@ class Mago(Personagem):
 
 
     def atacar(self, alvo):
+<<<<<<< Updated upstream
         dano = 10
-        print(f"{self.nome}({self.hp}) Atacou {alvo.nome}({alvo.hp})")
         alvo.receber_dano(dano)
+        print(f"{self.nome}({self.hp}) Atacou {alvo.nome}")
+
+
+    def receber_dano(self):
+        pass
+
+
+=======
+        print(f"usando ataque mágico")
         
 
 
-    def receber_dano(self, dano):
-        self.hp -= dano
-        print(f'[blue]{self.nome}[/] recebeu {dano} de [red]dano[/]. [green]HP atual:[/] {self.hp}\n')
-
-
+>>>>>>> Stashed changes
     def habilidade(self):
         pass
         
@@ -205,8 +241,9 @@ class Paladino(Personagem):
         self._dict_atributo["Força"] += 2
 
 
-    def atacar(self):
-        pass
+    def atacar(self, alvo):
+        print(f"Atacou (em nome de Deus)")
+        
 
     
     def habilidade(self):
@@ -229,16 +266,14 @@ class Ladino(Personagem):
         self._dict_atributo['Força'] -= 1
 
 
-    def atacar(self):
-        pass
-
-
-    def receber_dano(self):
-        pass
+    def atacar(self, alvo):
+        print(f"Esfaqueou")
 
 
     def habilidade(self):
         pass
+
+
 
 '''
 =================
@@ -273,38 +308,45 @@ def set_jogadores():
 
     confirm = ""
     for v in range(num_player):
+
         while True:
             nome = input(f'Insira o nome do jogador {v + 1}:  ').strip()
             
             if not nome:
                 print('[red]ERRO![/] VOCÊ NÃO DIGITOU [yellow]NADA![/]')
+                continue
 
             else:
                 print('[white on red]ATENÇÃO![/] APÓS ISSO O [yellow on black]NOME[/] JAMAIS, NUNCA E EM NENHUMA HIPÓTESE [red]PODERÁ SER MUDADO[/]')
                 confirm = input("VOCÊ TEM CERTEZA? [S/N] ").strip().lower()
                 if confirm == "s":
-                    while True:
-                        print(f"\nEscolha a sua classe:")
-                        print("Mago")
-                        print("Paladino")
-                        print("Ladino")
-
-
-                        escolha = input("> ").capitalize()
-                        if escolha in Personagem.CLASSES:
-                            jogador = Personagem.CLASSES[escolha](nome)
-                            jogador.calc_atr()
-                            jogador.aplicar_bonus()
-                            jogador.calc_hp_ps()
-                            jogadores.append(jogador)
-                            break
+                    break
                         
-                
                 elif confirm == "n":
                     continue
+
                 else:
                     print("Digite apenas S ou N.")
-            break
+
+        while True:
+                print(f"\nEscolha a sua classe:")
+                print("Mago")
+                print("Paladino")
+                print("Ladino")
+
+
+                escolha = input("> ").capitalize()
+                if escolha in Personagem.CLASSES:
+                    jogador = Personagem.CLASSES[escolha](nome)
+                    jogador.calc_atr()
+                    jogador.aplicar_bonus()
+                    jogador.calc_hp_ps()
+                    jogadores.append(jogador)
+                    break
+
+                else:
+                    print(f'Não existe uma classe "{escolha}"')
+            
 
             
     for j, jogador in enumerate(jogadores, start=1):
@@ -314,4 +356,7 @@ def set_jogadores():
     return jogadores    
     
 
-
+#set_jogadores()
+essecara = Inimigo()
+matador = Mago("sika")
+matador.atacar(essecara)
