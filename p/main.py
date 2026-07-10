@@ -6,7 +6,7 @@ while True:
     elif n == 'S':
         print('viadokkkkkkkk')
         break
-    elif n != "NAO" or "NÃO" or "S" or "N":
+    elif n != "NAO" or "NÃO":
         n = input('alem de viado é burro -> ((S)/N) <-: ').upper()
     else:
         n = input('KAKAKAKAKAKAKAKAKAKAKAKAKAKAKAKAKAKAKA -> ((S)/N) <-: ').upper()
